@@ -4,12 +4,13 @@ services:
   backend:
     build:
       context: ./backend
-      target: debug
+      target: pyspy
     ports:
       - 5678:5678 # to attach debug
       - 8000:8000 # actual webapp
     volumes:
       - ./backend/src/app:/usr/src/app
+      - ./pyspy_profiles:/usr/src/profiles
     depends_on:
       - postgres
     cap_add:

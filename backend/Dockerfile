@@ -25,9 +25,14 @@ FROM base as debug
 ENV PYTHONASYNCIODEBUG=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
-RUN /opt/venv/bin/python -m pip install debugpy py-spy
+RUN /opt/venv/bin/python -m pip install debugpy
 # Optional: add --wait-for-client in CMD below to pause startup until debugger is attached
 CMD ["python", "-m", "debugpy", "--listen", "0.0.0.0:5678", "-m", "uvicorn", "app.main:app", "--reload", "--host", "0.0.0.0"]
+
+FROM base as pyspy
+RUN /opt/venv/bin/python -m pip install py-spy
+RUN mkdir -p /usr/src/profiles
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0"]
 
 ### Production image
 FROM base as prod

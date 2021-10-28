@@ -1,6 +1,7 @@
 import time
 from datetime import datetime, timezone
 
+from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from fastapi import Depends, FastAPI
 
 from app.auth import get_user
@@ -15,7 +16,9 @@ def init_db():
     Base.metadata.create_all(engine)
 
 
+apm = make_apm_client(service_name="test_app", server_url="http://apm-server:8200")
 app = FastAPI()
+app.add_middleware(ElasticAPM, client=apm)
 app.include_router(AuthRouter)
 app.include_router(CrudRouter)
 
@@ -52,3 +55,8 @@ def on_startup():
 @app.get("/me", response_model=User, response_model_exclude={"password": ...})
 def me(user: User = Depends(get_user)):
     return user
+
+
+@app.get("/error")
+def err():
+    return 1 / 0

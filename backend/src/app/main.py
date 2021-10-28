@@ -9,6 +9,7 @@ from app.auth import router as AuthRouter
 from app.crud import router as CrudRouter
 from app.db import db_session, engine
 from app.models import Base, Todo, User
+from app.settings import settings
 
 
 def init_db():
@@ -16,7 +17,7 @@ def init_db():
     Base.metadata.create_all(engine)
 
 
-apm = make_apm_client(service_name="test_app", server_url="http://apm-server:8200")
+apm = make_apm_client(service_name=settings.APM_NAME, server_url=settings.APM_SERVER)
 app = FastAPI()
 app.add_middleware(ElasticAPM, client=apm)
 app.include_router(AuthRouter)

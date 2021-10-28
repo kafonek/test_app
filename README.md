@@ -18,3 +18,10 @@ This is a toy Todo application that uses some of the same frameworks as our prod
 Clone this repository and `docker-compose up`.  It may take a few minutes for the databases to come online.  The backend fastapi app will start once it can connect to the database.  To access Jupyter, watch the logs (`docker-compose logs jupyter`) for the Jupyter url with access token, which will look something like `http://127.0.0.1:8888/?token=a458728e0c549062d578ea9cbaa5ef2d312702c9296363c5`
 
 When the app is up, you can explore its endpoints via OpenAPI/Swagger at `http://localhost:8000/docs`
+
+# Elastic APM
+
+Elasticsearch supports application performance monitoring (APM) and can easily integrate with Starlette/FastAPI applications.  Read more at the official Elastic APM docs: https://www.elastic.co/apm/.
+
+To demo this branch, you'll need to run a local ELK stack, which you can deploy with docker-compose by cloning https://github.com/kafonek/elk_compose and `docker-compose up`.
+
